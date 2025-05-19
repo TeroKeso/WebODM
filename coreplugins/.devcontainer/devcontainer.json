@@ -1,0 +1,20 @@
+{
+    "name": "Ubuntu with Wedodm",
+    "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",
+
+    "remoteUser": "vscode",
+      "runArgs": [
+        "--device=/dev/net/tun",
+        "--privileged"
+                ],
+    "features": {
+      "docker-in-docker": "latest",
+      "ghcr.io/tailscale/codespace/tailscale": {
+                "version": "latest"
+        },
+  },
+  "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+      ],
+                "postStartCommand": "nohup bash -c 'sudo chgrp docker /var/run/docker.sock && docker-compose -f docker-compose.yml -f docker-compose.nodeodm.gpu.nvidia.yml up --scale node-odm=1'"
+}
